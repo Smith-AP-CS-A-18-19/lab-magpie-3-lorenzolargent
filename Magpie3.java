@@ -39,11 +39,40 @@ public class Magpie3 {
 				   || findKeyword(statement, "brother") >= 0)
 		{
 			response = "Tell me more about your family.";
+
+		} else if (findKeyword(statement, "dog") >= 0
+					 || findKeyword(statement, "cat") >= 0
+					 || findKeyword(statement, "fish") >= 0
+					 || findKeyword(statement, "gorilla") >= 0)
+		{
+			response = "Tell me more about your pets.";
+		} else if (findKeyword(statement, "Marshall") >= 0
+					 || findKeyword(statement,"GOAT") >= 0
+					 || findKeyword(statement,"McLaughlin") >= 0
+					 || findKeyword(statement, "Olson") >= 0)
+		{
+			response = "They have a group chat.";
+		} else if (findKeyword(statement,"grade") >= 0
+					 || findKeyword(statement,"Lorenzo") >= 0
+					 || findKeyword(statement,"AP") >= 0
+					 || findKeyword(statement,"Exam") >= 0)
+		{
+			response = "Lorenzo will get a five on the AP Exam";
+		} else if (findKeyword(statement,"Lorenzo") >= 0
+					 || findKeyword(statement,"Whats up") >= 0
+					 || findKeyword(statement,"How are you") >= 0
+					 || findKeyword(statement,"u up") >= 0)
+		{ response = "Hello";
+
+		} else if (findKeyword(statement,"Smith") >= 0)
+		{
+			response = "Did you mean Mr. Snowden";
 		} else {
 			response = getRandomResponse();
 		}
 		return response;
 	}
+
 
 	/**
 	 * Search for one word in phrase. The search is not case
@@ -61,15 +90,14 @@ public class Magpie3 {
 	 * @return the index of the first occurrence of goal in
 	 *         statement or -1 if it's not found
 	 */
-	private int findKeyword(String statement, String goal,
-			int startPos)
+	private int findKeyword(String statement, String goal, int startPos)
 	{
 		String phrase = statement.trim().toLowerCase();
 		goal = goal.toLowerCase();
 
 		// The only change to incorporate the startPos is in
 		// the line below
-		int psn = phrase.indexOf(goal, startPos);
+		int psn = findKeyword(phrase, goal, startPos);
 
 		// Refinement--make sure the goal isn't part of a
 		// word
@@ -80,25 +108,21 @@ public class Magpie3 {
 			if (psn > 0) {
 				before = phrase.substring(psn - 1, psn);
 			} if (psn + goal.length() < phrase.length()) {
-				after = phrase.substring(
-						psn + goal.length(),
-						psn + goal.length() + 1);
+				after = phrase.substring(psn + goal.length(), psn + goal.length() + 1);
 			}
 
 			// If before and after aren't letters, we've
 			// found the word
-			if (((before.compareTo("a") < 0) || (before
-					.compareTo("z") > 0)) // before is not a
+			if (((before.compareTo("a") < 0) || (before.compareTo("z") > 0)) // before is not a
 											// letter
-					&& ((after.compareTo("a") < 0) || (after
-							.compareTo("z") > 0)))
+					&& ((after.compareTo("a") < 0) || (after.compareTo("z") > 0)))
 			{
 				return psn;
 			}
 
 			// The last position didn't work, so let's find
 			// the next, if there is one.
-			psn = phrase.indexOf(goal, psn + 1);
+			psn = findKeyword(phrase, goal, psn + 1);
 
 		}
 
